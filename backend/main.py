@@ -8,7 +8,8 @@ from decouple import config
 import openai
 
 # Custom Function Imports
-#---
+from functions.openai_requests import convert_audio_to_text
+# - - - - -
 
 
 # Initiate App
@@ -48,6 +49,21 @@ async def check_health():
 
 # Send Audio File
 # Note: Not playing in browser when using post request
-@app.post("/post-audio/")
-async def post_audio(file: UploadFile = File(...)):
-    print("hello")
+# @app.post("/post-audio/")
+# async def post_audio(file: UploadFile = File(...)):
+#     print("hello")
+
+
+@app.get("/post-audio-get/")
+async def get_audio():
+    print("get_audio invoked")
+    
+    # Open audio file -- with context manager ???
+    audio_input = open("voice_test.mp3", "rb")
+    
+    # Decode audio with Whisper
+    transcribed_text = convert_audio_to_text(audio_input)
+    print(f"transcribed_text: {transcribed_text}")
+    
+    return transcribed_text
+    
