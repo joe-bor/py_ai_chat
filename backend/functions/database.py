@@ -3,7 +3,7 @@ import random
 
 # Get recent messages
 
-def get_recent_message():
+def get_recent_messages():
     '''
     This function fetches the last 10 messages between the user and the chat bot.
     '''
@@ -13,14 +13,14 @@ def get_recent_message():
     file_name = "stored_data.json"
     learn_instructions = {
         "role": "system",
-        "content": "You are interviewing the user for a job as a junior software engineer. Ask them to introduce themselves to get an idea of their background and the skills and experience they've gained. Then with the information you obtain, create relevant questions that are normally asked in software engineering job interviews at a junior level. Keep your answers/questions short."
+        "content": "You are interviewing the user for a job as a junior software engineer. Ask them to introduce themselves to get an idea of their background and the skills and experience they've gained. Then with the information you obtain, create relevant questions that are normally asked in software engineering job interviews at a junior level. Keep your answers/questions short, max of 30 words."
     }
     
     # Initialize messages
     messages = []
     
     # Add a random element
-    x = random.uniform()
+    x = random.uniform(0, 1)
     if x < 0.5:
         learn_instructions["content"] += "Your response will include dry humor."
     else:
@@ -34,7 +34,7 @@ def get_recent_message():
     try:
         with open(file_name) as user_file:
             data = json.load(user_file)
-            
+            print(f"data: {data}") # !DELETE
             # Append last 10 items of data
             if data:
                 if len(data) < 10:
@@ -48,3 +48,5 @@ def get_recent_message():
 
     return messages
 
+# https://www.udemy.com/course/chatgpt-ai-voice-chatbot-build-with-react-and-fast-api-combo/learn/lecture/36923404#overview
+# https://platform.openai.com/docs/guides/text-generation/chat-completions-api
