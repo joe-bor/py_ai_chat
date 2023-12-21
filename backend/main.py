@@ -9,7 +9,7 @@ import openai
 
 # Custom Function Imports
 from functions.openai_requests import convert_audio_to_text, get_chat_response
-
+from functions.database import store_messages, reset_messages
 
 # Initiate App
 app = FastAPI()
@@ -41,6 +41,12 @@ async def root():
     return {"message": "Hello This is the root path!"}
 
 
+@app.get("/reset")
+async def reset_conversation():
+    reset_messages()
+    return {"message": "Conversation has been reset"}
+
+
 @app.get("/health")
 async def check_health():
     return {"message": "check_health() invoked"}
@@ -68,6 +74,9 @@ async def get_audio():
     
     # Talk to ChatGPT
     chat_response = get_chat_response(transcribed_text)
+    
+    # Store messages in db
+    store_messages(transcribed_text, chat_response)
     
     print(f"chat_response: {chat_response}")
     

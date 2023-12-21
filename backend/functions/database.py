@@ -48,5 +48,32 @@ def get_recent_messages():
 
     return messages
 
+
+def store_messages(request_message, response_message):
+    
+    # Define the file name
+    # TODO: Change this when we move our convos in a db
+    file_name = "stored_data.json"
+    
+    # Get recent messages
+    messages = get_recent_messages()[1:]
+    
+    # Add messages to data
+    user_message = {"role": "user", "content": request_message}
+    assistant_message = {"role": "assistant", "content": response_message}
+    messages.append(user_message)
+    messages.append(assistant_message)
+    
+    # Save the updated file
+    with open(file_name, "w") as f:
+        json.dump(messages, f)
+    
+    
+# Reset messages
+def reset_messages():
+    # Overwrite with nothing == Reset
+    with open('stored_data.json', 'w') as file:
+        pass
+    
 # https://www.udemy.com/course/chatgpt-ai-voice-chatbot-build-with-react-and-fast-api-combo/learn/lecture/36923404#overview
 # https://platform.openai.com/docs/guides/text-generation/chat-completions-api
