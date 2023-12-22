@@ -60,11 +60,16 @@ async def check_health():
 #     print("hello")
 
 
-@app.get("/post-audio-get/")
-async def get_audio():
+@app.post("/post-audio/")
+async def post_audio(file: UploadFile = File(...)):
     
-    # Open audio file -- with context manager ???
-    audio_input = open("voice_test.mp3", "rb")
+    # # Open audio file -- with context manager ???
+    # audio_input = open("voice_test.mp3", "rb")
+    
+    # Save file from frontend
+    with open(file.filename, "wb") as buffer:
+        buffer.write(file.file.read())
+    audio_input = open(file.filename, "rb")
     
     # Decode audio with Whisper
     transcribed_text = convert_audio_to_text(audio_input)
@@ -75,6 +80,7 @@ async def get_audio():
     
     # Talk to ChatGPT
     chat_response = get_chat_response(transcribed_text)
+    print(f"chat_response: line 83 main.py : {chat_response}")
     
     # Guard
     if not chat_response:
@@ -94,5 +100,5 @@ async def get_audio():
     def iterfile():
         yield audio_output
     
-    return StreamingResponse(iterfile(), media_type="audio/mpeg")
+    return StreamingResponse(iterfile(), media_type="application/octet-stream")
     

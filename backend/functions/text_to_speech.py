@@ -28,7 +28,6 @@ def convert_text_to_speech(message):
     # Send request
     try:
         response = requests.request("POST", url, json=body, headers=headers)
-        print(f" ######## {response}")
     except Exception as e:
         print(e)
         return
