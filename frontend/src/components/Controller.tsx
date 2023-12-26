@@ -56,7 +56,7 @@ function Controller() {
           });
       });
 
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   return (
@@ -92,7 +92,22 @@ function Controller() {
               </div>
             );
           })}
+
+          {/* If chat is empty */}
+          {messages.length == 0 && !isLoading && (
+            <div className="text-center font-light italic mt-10">
+              Hold the microphone to send a message.
+            </div>
+          )}
         </div>
+
+        {/* Not empty */}
+        {isLoading && (
+          <div className="text-center font-light italic mt-10 animate-bounce">
+            {" "}
+            Give me a few seconds...{" "}
+          </div>
+        )}
 
         {/* Recorder */}
         <div className="fixed bottom-0 w-full py-6 border-t text-center bg-gradient-to-r from-sky-300 to-green-400">
