@@ -1,4 +1,3 @@
-import React from "react";
 import { ReactMediaRecorder } from "react-media-recorder";
 import RecordIcon from "./RecordIcon";
 
@@ -16,6 +15,8 @@ function RecordMessage({ handleStop }: Props) {
           <button
             onMouseDown={startRecording}
             onMouseUp={stopRecording}
+            // onTouchStart={startRecording}
+            // onTouchEnd={stopRecording}
             className="bg-white p-4 rounded-full"
           >
             <RecordIcon
